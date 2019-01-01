@@ -1,6 +1,4 @@
-# DigitRecognition
-
-####  Project     : Handwritten Digit Recognition                                                                                             
+#  Project     : Handwritten Digit Recognition                                                                                             
 ####  Description : We have a few images of handwritten digits submitted by a user via a scanner, a tablet, or other digital devices. Our objective is to develop a model using Support Vector Machine which should correctly classify the handwritten digits based on the pixel values given as features.                                                                      
 ####  Date        : 23-Dec-2018                                                                                                                       
 ####  Author      : Deepankar Kotnala                                         
