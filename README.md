@@ -5,7 +5,7 @@
 
 #### Business Understanding       
 
-#### We have a few images of digits submitted by a user via a scanner, a tablet, or other digital devices. Our objective is to develop a model using Support Vector Machine which should correctly classify the handwritten digits based on the pixel values given as features.
+We have a few images of digits submitted by a user via a scanner, a tablet, or other digital devices. Our objective is to develop a model using Support Vector Machine which should correctly classify the handwritten digits based on the pixel values given as features.
 
 
 ### Removing all the objects from the workspace
@@ -40,7 +40,7 @@ colnames(test)  <- c("digit", paste0("p", 1:784))
 
 
 ### Data Understanding and EDA            
-#### The MNIST database (Modified National Institute of Standards and Technology database) is a large database of handwritten digits that is commonly used for training various image processing systems.
+The MNIST database (Modified National Institute of Standards and Technology database) is a large database of handwritten digits that is commonly used for training various image processing systems.
 
 ### Understanding Dimensions
 dim(train) #59999  785
