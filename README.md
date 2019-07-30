@@ -108,36 +108,39 @@ No duplicates found in train and test datasets.
 
 Data is clean and standardised. Hence there is no need for feature standardisation (scaling).
 
-####  Model Building          
+###  Model Building          
 
-Using Linear Kernel
+#### Using Linear Kernel
 ```R
 (Model_linear <- ksvm(digit~., data=train, scale = FALSE, kernel = "vanilladot"))
 ```
+
 SV type: C-svc  (classification) 
 parameter : cost C = 1 
 Linear (vanilla) kernel function. 
 Number of Support Vectors : 2603
 Predicting the digits using Linear Model
+
 ```R
 Evaluate_linear <- predict(Model_linear, test)
 ```
 
-Confusion matrix - Finding the accuracy, sensitivity and specificity
+#### Confusion matrix - Finding the accuracy, sensitivity and specificity
 ```R
 confusionMatrix(Evaluate_linear, test$digit)
 ```
-Accuracy : 0.9113 (91.13%)
 
-                 Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7 Class: 8 Class: 9
+Accuracy : 0.9113 (91.13%)
+                  Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7 Class: 8 Class: 9
 Sensitivity        0.98163   0.9824  0.90213  0.91089  0.92668  0.85202  0.92902  0.90750  0.83881  0.86720
 Specificity        0.99246   0.9942  0.98818  0.98376  0.98736  0.99067  0.99215  0.99119  0.99269  0.98877
 Balanced Accuracy  0.98705   0.9883  0.94516  0.94732  0.95702  0.92134  0.96058  0.94935  0.91575  0.92798
 
-Using RBF Kernel
+#### Using RBF Kernel
 ```R
 (Model_RBF    <- ksvm(digit~., data = train, scale = FALSE, kernel = "rbfdot"))
 ```
+
 SV type: C-svc  (classification) 
 parameter : cost C = 1 
 Gaussian Radial Basis kernel function. 
@@ -146,16 +149,16 @@ We will use this value of sigma in Cross Validation.
 Number of Support Vectors : 3595 
 Training error : 0.019444 
 
-Predicting the digits using RBF Model
+#### Predicting the digits using RBF Model
 ```R
 Evaluate_RBF <- predict(Model_RBF, test)
 ```
-Confusion Matrix - RBF Kernel
+#### Confusion Matrix - RBF Kernel
 ```R
 confusionMatrix(Evaluate_RBF,test$digit)
 ```
 Accuracy : 0.9566 (95.66%)
-                  Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7 Class: 8 Class: 9
+                   Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7 Class: 8 Class: 9
 Sensitivity        0.98980   0.9921  0.94574  0.95743  0.96029  0.94507  0.97077  0.94352  0.93121  0.92567
 Specificity        0.99612   0.9972  0.99587  0.99388  0.99368  0.99495  0.99569  0.99565  0.99535  0.99344
 Balanced Accuracy  0.99296   0.9946  0.97081  0.97565  0.97698  0.97001  0.98323  0.96959  0.96328  0.95955
@@ -192,11 +195,13 @@ Expand.grid functions takes set of hyperparameters, that we shall pass to our mo
 ```R
 grid <- expand.grid(.sigma=c(0.64e-07, 1.64e-07, 2.64e-07, 3.64e-07, 4.64e-07), .C=c(1,2,3,4,5))
 ```
+
 train function takes Target ~ Prediction, 
 Data   => The dataset used (train dataset here), 
 Method => Algorithm (svmRadial)
 Metric => Type of metric, tuneGrid = Grid of Parameters,
 trcontrol => Our traincontrol method.
+
 ```R
 svm_cross_val <- train(digit~., data = train, method = "svmRadial", metric = metric, 
                        tuneGrid = grid, trControl = trainControl)
@@ -222,7 +227,7 @@ Plotting model results
 plot(svm_cross_val)
 ```
 
-#####  Final Model Building 
+###  Final Model Building 
 
 Source: https://www.rdocumentation.org/packages/kernlab/versions/0.3-1/topics/ksvm
 
@@ -240,7 +245,7 @@ C      : cost of constraints violation (default: 1)---it is the 'C'-constant of 
 scale  : A logical vector indicating the variables to be scaled.
 kernel : the kernel function used in training and predicting.
 
-##### Final Model Evaluation
+### Final Model Evaluation
 
 Checking overfitting - Non-Linear - SVM
 
@@ -250,10 +255,10 @@ Evaluate_RBF_test  <- predict(final_RBF_model, test)
 (conf_matrix_test   <- confusionMatrix(Evaluate_RBF_test , test$digit))
 ```
 Accuracy = 96.96%
-                 Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7 Class: 8 Class: 9
-#Sensitivity        0.99184   0.9894  0.96027  0.97129  0.97658  0.96861  0.97704  0.95424  0.95791  0.94747
-#Specificity        0.99701   0.9981  0.99610  0.99588  0.99645  0.99758  0.99801  0.99576  0.99546  0.99588
-#Balanced Accuracy  0.99442   0.9938  0.97818  0.98359  0.98651  0.98310  0.98752  0.97500  0.97668  0.97168
+                   Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7 Class: 8 Class: 9
+Sensitivity        0.99184   0.9894  0.96027  0.97129  0.97658  0.96861  0.97704  0.95424  0.95791  0.94747
+Specificity        0.99701   0.9981  0.99610  0.99588  0.99645  0.99758  0.99801  0.99576  0.99546  0.99588
+Balanced Accuracy  0.99442   0.9938  0.97818  0.98359  0.98651  0.98310  0.98752  0.97500  0.97668  0.97168
 
 ```R
 colMeans(conf_matrix_test$byClass)
@@ -271,7 +276,7 @@ Accuracy    - 0.9830 (98.30 %)
 Sensitivity - 0.9694 (96.94 %)
 Specificity - 0.9966 (99.66 %)
 
-##### Summary
+### Summary
 
 The approximate accuracies of both the models are:
 Linear kernel accuracy : 91.13 %
